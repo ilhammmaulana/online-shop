@@ -14,12 +14,13 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->d('id');
+            $table->uuid('id');
             $table->string('name');
             $table->foreignUuid('created_by')->nullable()->constrained('users');
             $table->text('description')->nullable();
             $table->decimal('price', 16, 2)->nullable();
             $table->integer('stock')->default(1);
+            $table->foreignUuid('category_id')->nullable()->constrained('category_products')->nullOnDelete();
             $table->string('image')->nullable();
             $table->softDeletes();
             $table->timestamps();
