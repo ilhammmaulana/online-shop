@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CategoryProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +36,5 @@ Route::middleware([
     ], function () {
         Route::post('profile', [AuthController::class, 'update']);
     });
+    Route::resource('categories', CategoryProductController::class)->only('index');
 });
