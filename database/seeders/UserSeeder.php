@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'), // password
             'phone' => "08954638229",
             'photo' => 'https://placehold.co/600x400?text=User+Photo'
-        ]);
+        ])->assignRole('admin');
 
         User::factory(10)->create();
     }

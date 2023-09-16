@@ -1,26 +1,26 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Destinations'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Products'])
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
-                        <h6>Destinations</h6>
+                        <h6>Products</h6>
                     </div>
                         <div class="card-body px-0 pt-0 pb-2">
                             <button type="button" class="btn bg-gradient-primary ms-4 mt-1 mb-4" data-bs-toggle="modal"
-                                data-bs-target="#createDestination">
-                                Create Destination
+                                data-bs-target="#createProduct">
+                                Create Product
                             </button>
                             {{-- Edit --}}
-                            <div class="modal fade" id="editDestination" tabindex="-1" role="dialog"
-                            aria-labelledby="editModelDestination" aria-hidden="true">
+                            <div class="modal fade" id="editProduct" tabindex="-1" role="dialog"
+                            aria-labelledby="editModelProduct" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="editModelDestination">Edit Destination</h5>
+                                        <h5 class="modal-title" id="editModelProduct">Edit Product</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -35,16 +35,16 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <label for="name" class="h6">Destination name</label>
+                                                    <label for="name" class="h6">Product name</label>
                                                     <div class="form-group">
                                                         <input required type="text" name="name" class="form-control" id="update-name"
-                                                            placeholder="Destination name">
+                                                            placeholder="Product name">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <label for="description" class="h6">Destination description</label>
+                                                    <label for="description" class="h6">Description</label>
                                                     <div class="form-group">
                                                         <textarea required name="description" class="form-control" id="update-description" >
                                                         </textarea>
@@ -61,44 +61,19 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="update_category_destinations" class="h6">Select Category Destination</label>
-                                                        <select required name="category_id" class="form-control" id="update_category_destinations">
-                                                            <option value="Destination Catgeory" disabled selected>Destination Catgeory</option>
-                                                            @foreach ($category_destinations as $category)
+                                                        <label for="update_category_product" class="h6">Select Category Product</label>
+                                                        <select required name="category_id" class="form-control" id="update_category_product">
+                                                            <option value="Product Catgeory" disabled selected>Product Catgeory</option>
+                                                            @foreach ($categories as $category)
                                                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>  
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="update_city" class="h6">Select City</label>
-                                                        <select required name="city_id" class="form-control" id="update_city">
-                                                            <option value="Destination Catgeory" disabled selected>City </option>
-                                                            @foreach ($cities as $city)
-                                                                <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="update_provinces" class="h6">Select Province </label>
-                                                        <select required name="province_id" class="form-control" id="update_provinces">
-                                                            <option value="Destination Catgeory" disabled selected>Select Province </option>
-                                                            @foreach ($provinces as $province)
-                                                                <option value="{{ $province->id }}">{{ $province->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label for="photo" class="h6">Destination photo</label>
+                                                    <label for="photo" class="h6">Product photo</label>
                                                     <div class="form-group">
                                                         <input type="file" id="imageInput"
                                                             onchange="previewImageForEdit(event)"class="form-control"
@@ -123,10 +98,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="address" class="h6">Destination address</label>
+                                                    <label for="address" class="h6">Product address</label>
                                                     <div class="form-group">
                                                         <input required type="text" class="form-control" id="update-address"
-                                                            name="address" placeholder="Destination address">
+                                                            name="address" placeholder="Product address">
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,18 +117,18 @@
                             </div>
                         </div>
                         {{-- Create --}}
-                        <div class="modal fade" id="createDestination" tabindex="-1" role="dialog"
-                            aria-labelledby="createModelDestination" aria-hidden="true">
+                        <div class="modal fade" id="createProduct" tabindex="-1" role="dialog"
+                            aria-labelledby="createModelProduct" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="createModelDestination">Craete Destination</h5>
+                                        <h5 class="modal-title" id="createModelProduct">Craete Product</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form enctype="multipart/form-data" action="{{ route('destinations.store') }}" method="POST">
+                                        <form enctype="multipart/form-data" action="{{ route('products.store') }}" method="POST">
                                             @csrf
                                             <div class="form-group">
                                                 <img id="imagePreview" src="#" alt="Image Preview"
@@ -161,19 +136,18 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <label for="name" class="h6">Destination name</label>
+                                                    <label for="name" class="h6">Product name</label>
                                                     <div class="form-group">
                                                         <input required type="text" name="name" class="form-control" id="name"
-                                                            placeholder="Destination name">
+                                                            placeholder="Product name">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <label for="description" class="h6">Destination description</label>
+                                                    <label for="description" class="h6">Product description</label>
                                                     <div class="form-group">
-                                                        <textarea required name="description" class="form-control" id="name" >
-                                                        </textarea>
+                                                        <textarea required name="description" class="form-control" id="name"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -187,74 +161,26 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label for="category_destinations" class="h6">Select Category Destination</label>
-                                                        <select required name="category_id" class="form-control" id="category_destinations">
-                                                            <option value="Destination Catgeory" disabled selected>Destination Catgeory</option>
-                                                            @foreach ($category_destinations as $category)
-                                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                        <label for="category_Products" class="h6">Select Category Product</label>
+                                                        <select required name="category_id" class="form-control" id="category_Products">
+                                                            <option value="Product Catgeory" disabled selected>Product Catgeory</option>
+                                                            @foreach($categories as $category)
+                                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-6">  
-                                                    <div class="form-group">
-                                                        <label for="city" class="h6">Select City</label>
-                                                        <select required name="city_id" class="form-control" id="city">
-                                                            <option value="Destination Catgeory" disabled selected>City </option>
-                                                            @foreach ($cities as $city)
-                                                                <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
                                                 <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="provinces" class="h6">Select Province </label>
-                                                        <select required name="province_id" class="form-control" id="provinces">
-                                                            <option value="Destination Catgeory" disabled selected>Select Province </option>
-                                                            @foreach ($provinces as $province)
-                                                                <option value="{{ $province->id }}">{{ $province->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label for="photo" class="h6">Destination photo</label>
+                                                    <label for="photo" class="h6">Product photo</label>
                                                     <div class="form-group">
                                                         <input type="file" id="imageInput"
                                                             onchange="previewImage(event)"class="form-control"
                                                             name="image">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label for="latitude" class="h6">Latitude</label>
-                                                    <div class="form-group">
-                                                        <input required type="text" class="form-control" id="latitude"
-                                                            name="latitude" placeholder="Latitude">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label for="longitude" class="h6">Longitude</label>
-                                                    <div class="form-group">
-                                                        <input required type="text" class="form-control" id="longitude"
-                                                            name="longitude" placeholder="Longitude">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="address" class="h6">Destination address</label>
-                                                    <div class="form-group">
-                                                        <input required type="text" class="form-control" id="address"
-                                                            name="address" placeholder="Destination address">
-                                                    </div>
-                                                </div>
+                                             
                                             </div>
                                     </div>
                                     <div class="modal-footer">
@@ -271,104 +197,81 @@
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Name</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Photo</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Avarage Rating</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Photo</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Avarage Rating</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Longtitude</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Latitude</th>
+                                            Price</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Address</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                Price</th>
+                                            Category</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($destinations as $destination)
+                                    @foreach ($products as $product)
                                         <tr>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex px-2 py-1">
                                                         <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm">{{ $destination['name'] }}</h6>
+                                                            <h6 class="mb-0 text-sm">{{ $product['name'] }}</h6>
                                                             <p class="text-xs text-secondary mb-0">
-                                                                {{ Str::limit($destination['description'], 40, '...') }}</p>
+                                                                {{ Str::limit($product['description'], 40, '...') }}</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
+                                        <td>
                                                 <div>
-                                                    <img src="{{ asset($destination['image']) }}"
+                                                    <img src="{{ $product['image'] === null ? asset('assets/img/default.png') : asset($product['image']) }}"
                                                         class="avatar avatar-sm me-3" alt="user1">
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="{{ $destination['average_rating'] !== null ? 'text-warning' : '' }}"> <i class="fas fa-star me-1"></i>{{ $destination['average_rating'] === null ? 0 : number_format($destination['average_rating'], 2) }}</p>
-                                            </td>
-                                            <td class="align-middle text-sm">
-                                                {{ $destination['longitude'] }}
-                                            </td>
-                                            <td class="align-middle">
-                                                <span class="text-secondary text-xs font-weight-bold">
-                                                    {{ $destination['latitude'] }}
-                                                </span>
+                                                {{-- <p class="{{ $product['average_rating'] !== null ? 'text-warning' : '' }}"> <i class="fas fa-star me-1"></i>{{ $product['average_rating'] === null ? 0 : number_format($product['average_rating'], 2) }}</p> --}}
+                                                0
                                             </td>
                                             <td class="align-middle text-xs font-weight-bold">
-                                                {{ $destination['address'] }}
+                                                {{ format_rupiah($product['price']) }}
                                             </td>
-                                            <td class="align-middle text-xs font-weight-bold">
-                                                {{ format_rupiah($destination['price']) }}
-                                            </td>
+
                                             <td>
                                                 <button type="button" class="btn btn-primary edit-button"
-                                                data-bs-toggle="modal" data-bs-target="#editDestination"
-                                                data-id="{{ $destination->id }}"
-                                                data-name="{{ $destination->name }}"
-                                                data-description="{{ $destination->description }}"
-                                                data-price="{{ $destination->price }}"
-                                                data-category="{{ $destination->category_id }}"
-                                                data-city="{{ $destination->city_id }}"
-                                                data-image="{{ url($destination->image) }}"
-                                                data-province="{{ $destination->province_id }}"
-                                                data-latitude="{{ $destination->latitude }}"
-                                                data-longitude="{{ $destination->longitude }}"
-                                                data-address="{{ $destination->address }}"
+                                                data-bs-toggle="modal" data-bs-target="#editProduct"
+                                                data-id="{{ $product->id }}"
+                                                data-name="{{ $product->name }}"
+                                                data-description="{{ $product->description }}"
+                                                data-price="{{ $product->price }}"
+                                                data-category="{{ $product->category_id }}"
+                                                data-image="{{ $product->image === null ? null : url($product->image) }}"
                                             >
                                                 Edit
-                                                <form action="{{ url('destinations') . '/' .$destination->id }}" method="POST">
+                                                <form action="{{ url('products') . '/' .$product->id }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 </button>
                                                 <button TYPE="submit" class="btn btn-danger">Delete</button>
                                                 </form>
                                             </td>
-
                                         </tr>
                                     @endforeach
 
                                 </tbody>
                             </table>
                             <ul class="pagination pagination-primary ms-3 mt-4">
-                                @if ($destinations->onFirstPage())
+                                @if ($products->onFirstPage())
                                     <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
                                 @else
-                                    <li class="page-item"><a class="page-link" href="{{ $destinations->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+                                    <li class="page-item"><a class="page-link" href="{{ $products->previousPageUrl() }}" rel="prev">&laquo;</a></li>
                                 @endif
                         
-                                @if ($destinations->lastPage() == 1) 
+                                @if ($products->lastPage() == 1) 
                                     <li class="page-item active"><span class="page-link">1</span></li>
                                 @else
-                                    @foreach ($destinations->getUrlRange(1, $destinations->lastPage()) as $page => $url)
-                                        @if ($page == $destinations->currentPage())
+                                    @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+                                        @if ($page == $products->currentPage())
                                             <li class="page-item active"><span class="page-link">{{ $page }}</span></li>
                                         @else
                                             <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
@@ -376,8 +279,8 @@
                                     @endforeach
                                 @endif
                         
-                                @if ($destinations->hasMorePages())
-                                    <li class="page-item"><a class="page-link" href="{{ $destinations->nextPageUrl() }}" rel="next">&raquo;</a></li>
+                                @if ($products->hasMorePages())
+                                    <li class="page-item"><a class="page-link" href="{{ $products->nextPageUrl() }}" rel="next">&raquo;</a></li>
                                 @else
                                     <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
                                 @endif
@@ -492,7 +395,7 @@
     const editLongitude = document.getElementById('update-longitude');
     const editLatitude = document.getElementById('update-latitude');
     const editAdress = document.getElementById('update-address');
-    const editCategoryDropdown = document.getElementById('update_category_destinations');
+    const editCategoryDropdown = document.getElementById('update_category_product');
     const editCityDropdown = document.getElementById('update_city');
     const editProvinceDropdown = document.getElementById('update_provinces');
 
@@ -511,7 +414,7 @@
             const city = button.getAttribute('data-city');
             const province = button.getAttribute('data-province');
 
-            const url = "{{ url('destinations') }}" + '/' + id;
+            const url = "{{ url('Products') }}" + '/' + id;
             editForm.setAttribute('action', url);
             editNameInput.value = name;
             editImagePreview.src = image;

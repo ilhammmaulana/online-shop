@@ -10,6 +10,7 @@ use App\Http\Controllers\WEB\UserProfileController;
 use App\Http\Controllers\WEB\ResetPassword;
 use App\Http\Controllers\WEB\ChangePassword;
 use App\Http\Controllers\WEB\DestinationController;
+use App\Http\Controllers\WEB\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +33,7 @@ Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('gue
 Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
 Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
-    Route::resource('destinations', DestinationController::class)->names('destinations');
+    Route::resource('products', ProductController::class)->names('products');
     Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
     Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');
@@ -42,7 +43,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sign-up-static', [PageController::class, 'signup'])->name('sign-up-static');
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });
-
 
 Route::fallback(function () {
     if (!request()->is('public/*')) {
