@@ -63,8 +63,9 @@ class ProductController extends ApiController
             $input = $createProductRequest->only('name', 'description', 'price', 'category_id');
             CategoryProduct::findOrFail($input['category_id']);
             $photo = $createProductRequest->file('image');
-            $path = Storage::disk('public')->put('images/users', $photo);
-            $this->productRepository->create($this->guard()->id(), $input);
+            $path = 'public/'. Storage::disk('public')->put('images/users', $photo);
+            $input['image'] = $path;
+            $this->productRepository->create(auth()->id(), $input);
             return redirect()->to('products')->with('success', 'Success create product !');
         } catch (\Throwable $th) {
             throw $th;

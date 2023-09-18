@@ -8,7 +8,9 @@ class ProductRepository
 {
     public function getAll()
     {
-        return Product::latest()->paginate(10);
+        $products = Product::with('category')->latest()->paginate(10);
+        
+        return ;
     }
     public function create($created_by, $data)
     {
