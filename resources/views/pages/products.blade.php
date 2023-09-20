@@ -430,7 +430,7 @@
                 const address = button.getAttribute('data-address');
                 const image = button.getAttribute('data-image');
                 const category = button.getAttribute('data-category');
-
+                
                 const url = "{{ url('Products') }}" + '/' + id;
                 editForm.setAttribute('action', url);
                 editNameInput.value = name;
