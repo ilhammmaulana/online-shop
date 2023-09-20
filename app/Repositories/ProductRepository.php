@@ -9,8 +9,7 @@ class ProductRepository
     public function getAll()
     {
         $products = Product::with('category')->latest()->paginate(10);
-        
-        return ;
+        return $products;
     }
     public function create($created_by, $data)
     {
