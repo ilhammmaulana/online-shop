@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CategoryProductController;
+use App\Http\Controllers\API\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,4 +38,5 @@ Route::middleware([
         Route::post('profile', [AuthController::class, 'update']);
     });
     Route::resource('categories', CategoryProductController::class)->only('index');
+    Route::resource('products', ProductController::class)->only('index', 'show');
 });

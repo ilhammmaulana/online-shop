@@ -20,4 +20,9 @@ class ProductRepository
             throw $th;
         }
     }
+    public function getPopularProducts()
+    {
+        $products = Product::with('category')->latest()->get();
+        return $products;
+    }
 }
