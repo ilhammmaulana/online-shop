@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    use HasFactory, useUUID, SoftDeletes;
+    use HasFactory, useUUID, SoftDeletes    ;
     protected $fillable = ['id', 'name', 'created_by', 'price', 'description', 'price', 'stock', 'category_id', 'image'];
     protected $hidden = ['created_by'];
     protected $primaryKey = 'id';

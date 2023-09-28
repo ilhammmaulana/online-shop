@@ -17,6 +17,7 @@ class CreateFavoritesTable extends Migration
             $table->id();
             $table->foreignUuid('product_id')->constrained('products');
             $table->foreignUuid('created_by')->constrained('users');
+            $table->unique(['created_by', 'product_id']);
             $table->timestamps();
         });
     }
