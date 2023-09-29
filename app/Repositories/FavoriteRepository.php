@@ -26,13 +26,16 @@ class FavoriteRepository
         $favorite = Favorite::where('created_by', $user_id)
             ->where('product_id', $product_id)
             ->first();
-
         return $favorite !== null;
     }
     public function getProducts($id_user)
     {
-        $favoriteProductIds = Favorite::where('created_by', $id_user)->pluck('product_id');
-        $favoriteProducts = Product::whereIn('id', $favoriteProductIds)->with('category')->get();
+        $favoriteProducts = Product::select('products.*')
+            ->join('favorites', 'products.id', '=', 'favorites.product_id')
+            ->where('favorites.created_by', $id_user)
+            ->with('category')
+            ->get();
+
         return $favoriteProducts;
     }
 }

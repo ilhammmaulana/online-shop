@@ -22,7 +22,12 @@ class ProductRepository
     }
     public function getPopularProducts()
     {
-        $products = Product::with('category')->latest()->get();
-        return $products;
+        $product = Product::with('category')
+            ->selectRaw('products.*, AVG(reviews.rating) as average_rating')
+            ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
+            ->groupBy('products.id')
+            ->orderByRaw('average_rating DESC')
+            ->get();
+        return $product;
     }
 }

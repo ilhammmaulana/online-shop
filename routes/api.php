@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CategoryProductController;
 use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -44,4 +45,7 @@ Route::middleware([
         Route::post('/', [FavoriteController::class, 'store']);
     });
     Route::resource('products', ProductController::class)->only('index', 'show');
+    Route::prefix('products/rating')->group(function () {
+        Route::post('/', [ReviewController::class, 'store']);
+    });
 });

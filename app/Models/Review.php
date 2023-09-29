@@ -9,5 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory, useUUID;
-    protected $fillable = ['id', 'created_by', 'product_id'];
+    protected $fillable = ['id', 'created_by', 'product_id', 'rating'];
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
 }
