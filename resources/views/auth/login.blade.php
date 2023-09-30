@@ -47,11 +47,10 @@
                         <div
                             class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
                             <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden"
-                                style="background-image: url('{{ asset('img/illustrations/bali.jpg') }}');
+                                style="background-image: url('{{ asset('img/illustrations/online-shop.jpeg') }}');
               background-size: cover;">
                                 <span class="mask bg-gradient-primary opacity-6"></span>
-                                <h4 class="mt-5 text-white font-weight-bolder position-relative">"Manage destinations is
-                                    easy"</h4>
+                                <h4 class="mt-5 text-white font-weight-bolder position-relative">"Managing E-commerce"</h4>
                                 <p class="text-white position-relative">The more effortless the writing looks, the more
                                     effort the writer actually put into the process.</p>
                             </div>

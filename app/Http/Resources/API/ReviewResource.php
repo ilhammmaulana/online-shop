@@ -18,9 +18,9 @@ class ReviewResource extends JsonResource
         return [
             "id" => $this->id,
             "rating" => $this->rating,
+            "main_impression" => $this->main_impression,
             "review" => $this->review,
             "user" => new UserResource($this->user),
-            "main_impression" => $this->main_impression,
             "created_at" => $this->created_at->format('Y-m-d H:i:s'),
             "updated_at" => $this->updated_at->format('Y-m-d H:i:s')
         ];

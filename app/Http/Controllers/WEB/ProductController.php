@@ -60,10 +60,10 @@ class ProductController extends ApiController
     public function store(CreateProductRequest $createProductRequest)
     {
         try {
-            $input = $createProductRequest->only('name', 'description', 'price', 'category_id');
+            $input = $createProductRequest->only('name', 'description', 'price', 'stock', 'category_id');
             CategoryProduct::findOrFail($input['category_id']);
             $photo = $createProductRequest->file('image');
-            $path = 'public/'. Storage::disk('public')->put('images/users', $photo);
+            $path = 'public/' . Storage::disk('public')->put('images/users', $photo);
             $input['image'] = $path;
             $this->productRepository->create(auth()->id(), $input);
             return redirect()->to('products')->with('success', 'Success create product !');

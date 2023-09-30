@@ -157,13 +157,13 @@
                                                 <div class="col-md-6">
                                                     <label for="description" class="h6">Product description</label>
                                                     <div class="form-group">
-                                                        <textarea required name="description" class="form-control" id="name"></textarea>
+                                                        <textarea required placeholder="Description product" name="description" class="form-control" id="name"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="price" class="h6">Price</label>
                                                     <div class="form-group">
-                                                        <input required name="price" class="form-control"
+                                                        <input required placeholder="example dont using dot 20000  " name="price" class="form-control"
                                                             id="price" />
                                                         <span id="priceError" class="text-danger"></span>
                                                     </div>
@@ -193,6 +193,14 @@
                                                         <input type="file" id="imageInput"
                                                             onchange="previewImage(event)"class="form-control"
                                                             name="image">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="stock" class="h6">Stock</label>
+                                                    <div class="form-group">
+                                                        <input required name="stock" class="form-control" value="1"
+                                                            id="stock" />
+                                                        <span id="stockError" class="text-danger"></span>
                                                     </div>
                                                 </div>
 

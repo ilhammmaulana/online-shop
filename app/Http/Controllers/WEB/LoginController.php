@@ -37,7 +37,6 @@ class LoginController extends Controller
                 return redirect()->route('login')->with('failed', 'You do not have access to the dashboard.');
             }
         }
-        dd($credentials);
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
