@@ -15,10 +15,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary()->index();
-            $table->timestamps();
+            $table->double('total_price')->nullable();
             $table->foreignUuid('created_by')->constrained('users');
             $table->string('status_transaction', 36)->nullable(true);
-            $table->double('total_price');
+            $table->timestamps();
         });
     }
 

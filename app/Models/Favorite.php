@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\Model;
 class Favorite extends Model
 {
     use HasFactory;
-    protected $fillable = ['id', 'product_id', 'created_by'];
+    protected $fillable = ['product_id', 'created_by'];
 }

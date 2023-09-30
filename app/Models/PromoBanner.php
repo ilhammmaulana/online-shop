@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class PromoBanner extends Model
 {
+    protected $fillable = ['id', 'iamge'];
     use HasFactory;
 }

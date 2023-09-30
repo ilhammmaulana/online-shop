@@ -16,8 +16,12 @@ class Order extends Model
     /**
      * Relation to cart
      */
-    public function cart()
+    public function carts()
     {
         return $this->hasMany(Cart::class, 'order_id');
+    }
+    public function orderItem()
+    {
+        return $this->hasMany(OrderItem::class, 'order_id');
     }
 }

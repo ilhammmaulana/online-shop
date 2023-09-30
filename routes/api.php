@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryProductController;
 use App\Http\Controllers\API\FavoriteController;
+use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ReviewController;
 use Illuminate\Http\Request;
@@ -50,5 +52,13 @@ Route::middleware([
     });
     Route::prefix('products/categories')->group(function () {
         Route::get('/{id}', [ProductController::class, 'getByCategory']);
+    });
+    Route::resource('carts', CartController::class)->only('index', 'store', 'update', 'destroy');
+    Route::prefix('carts')->group(function () {
+        Route::post('decrement', [CartController::class, 'decrement']);
+        Route::post('increment', [CartController::class, 'increment']);
+    });
+    Route::resource('orders', OrderController::class)->only('index', 'show', 'store');
+    Route::prefix('orders')->group(function () {
     });
 });

@@ -223,6 +223,8 @@
                                             Price</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Category</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Stock</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>
@@ -248,13 +250,17 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                {{-- <p class="{{ $product['average_rating'] !== null ? 'text-warning' : '' }}"> <i class="fas fa-star me-1"></i>{{ $product['average_rating'] === null ? 0 : number_format($product['average_rating'], 2) }}</p> --}}
-                                                0
+                                                <p class="{{ $product['average_rating'] !== null ? 'text-warning' : '' }}"> <i class="fas fa-star me-1"></i>{{ $product['average_rating'] === null ? 0 : number_format($product['average_rating'], 2) }}</p>
                                             </td>
                                             <td class="align-middle text-xs font-weight-bold">
                                                 {{ format_rupiah($product['price']) }}
                                             </td>
-
+                                            <td>
+                                                {{ $product->category->name }}
+                                            </td>
+                                            <td>
+                                                {{ $product->stock }}
+                                            </td>
                                             <td>
                                                 <button type="button" class="btn btn-primary edit-button"
                                                     data-bs-toggle="modal" data-bs-target="#editProduct"
