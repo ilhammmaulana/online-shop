@@ -48,4 +48,7 @@ Route::middleware([
     Route::prefix('products/rating')->group(function () {
         Route::post('/', [ReviewController::class, 'store']);
     });
+    Route::prefix('products/categories')->group(function () {
+        Route::get('/{id}', [ProductController::class, 'getByCategory']);
+    });
 });

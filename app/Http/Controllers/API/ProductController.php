@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\API\ProductAndReviewResource;
 use App\Http\Resources\API\ProductResource;
+use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\This;
@@ -27,8 +29,12 @@ class ProductController extends ApiController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $q = $request->query('q');
+        if ($q) {
+            return $this->requestSuccessData(ProductResource::collection($this->productRepository->searchProduct($q)));
+        }
         return $this->requestSuccessData(ProductResource::collection($this->productRepository->getPopularProducts()));
     }
 
@@ -61,7 +67,7 @@ class ProductController extends ApiController
      */
     public function show($id)
     {
-        //
+        return $this->requestSuccessData(new ProductAndReviewResource($this->productRepository->getOne($id)));
     }
 
     /**
@@ -96,5 +102,9 @@ class ProductController extends ApiController
     public function destroy($id)
     {
         //
+    }
+    public function getByCategory($id)
+    {
+        return $this->requestSuccessData(ProductResource::collection($this->productRepository->getByCategoryId($id)));
     }
 }

@@ -15,6 +15,7 @@ class CreateReviewsTable extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->uuid('id')->primary()->index();
+            $table->string('main_impression')->nullable();
             $table->text('review')->nullable();
             $table->integer('rating');
             $table->foreignUuid('product_id')->constrained('products', 'id');

@@ -12,7 +12,7 @@ class ReviewController extends ApiController
 {
     public function store(CreateReviewRequest $createReviewRequest)
     {
-        $input = $createReviewRequest->only('rating', 'product_id');
+        $input = $createReviewRequest->only('rating', 'main_impression', 'review', 'product_id');
         $input['created_by'] = $this->guard()->id();
 
         $existingReview = Review::where('created_by', $this->guard()->id())
@@ -22,9 +22,7 @@ class ReviewController extends ApiController
         if ($existingReview) {
             return $this->badRequest('review_exist', 'Review allready exist!');
         }
-
         Review::create($input);
-
         return $this->requestSuccess();
     }
 }

@@ -30,12 +30,14 @@ class FavoriteRepository
     }
     public function getProducts($id_user)
     {
-        $favoriteProducts = Product::select('products.*')
+        $products = Product::with('category')
             ->join('favorites', 'products.id', '=', 'favorites.product_id')
-            ->where('favorites.created_by', $id_user)
-            ->with('category')
+            ->selectRaw('products.*, ROUND(AVG(reviews.rating), 2) as average_rating')
+            ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
+            ->where('favorites.created_by', $id_user) // Menambahkan kondisi WHERE
+            ->groupBy('products.id')
+            ->orderByRaw('average_rating DESC')
             ->get();
-
-        return $favoriteProducts;
+        return $products;
     }
 }

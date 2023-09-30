@@ -5,9 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\API\ProductResource;
+use App\Models\Product;
 use App\Repositories\FavoriteRepository;
 use App\Repositories\ProductRepository;
 use App\Services\FavoriteService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class FavoriteController extends ApiController
@@ -31,8 +33,15 @@ class FavoriteController extends ApiController
 
     public function store(Request $request)
     {
-        $input = $request->only('product_id');
-        $response = $this->favoriteService->toogle($this->guard()->id(), $input['product_id']);
-        return $this->requestSuccessData($response);
+        try {
+            $input = $request->only('product_id');
+            Product::findOrFail($input['product_id']);
+            $response = $this->favoriteService->toogle($this->guard()->id(), $input['product_id']);
+            return $this->requestSuccessData($response);
+        } catch (ModelNotFoundException $th) {
+            return $this->requestNotFound('Product not found!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }
