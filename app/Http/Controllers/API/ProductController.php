@@ -9,6 +9,7 @@ use App\Http\Resources\API\ProductResource;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use phpDocumentor\Reflection\Types\This;
 
 class ProductController extends ApiController
@@ -101,7 +102,21 @@ class ProductController extends ApiController
      */
     public function destroy($id)
     {
-        //
+        try {
+            $product = Product::findOrFail($id);
+
+            if ($product->image) {
+                Storage::delete($product->image);
+            }
+
+            // Delete the product record from the database
+            $product->delete();
+
+            return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
+        } catch (\Throwable $th) {
+            // Handle exceptions or errors here, for example, you can return a 404 view if the product is not found
+            return view('errors.404');
+        }
     }
     public function getByCategory($id)
     {

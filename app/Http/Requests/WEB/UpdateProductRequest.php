@@ -13,7 +13,7 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return true ;
+        return true;
     }
 
     /**
@@ -27,6 +27,7 @@ class UpdateProductRequest extends FormRequest
             "name" => "required",
             "description" => "required|min:3",
             "price" => "required",
+            "stock" => "required",
             "category_id" => "required",
             "image" => "image|mimes:png,jpg|max:2000"
         ];

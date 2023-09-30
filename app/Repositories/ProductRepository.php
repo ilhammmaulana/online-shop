@@ -8,7 +8,12 @@ class ProductRepository
 {
     public function getAll()
     {
-        $products = Product::with('category')->latest()->paginate(10);
+        $products = Product::with('category')
+            ->selectRaw('products.*, ROUND(AVG(reviews.rating), 2) as average_rating')
+            ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
+            ->groupBy('products.id')
+            ->latest()
+            ->paginate(10);
         return $products;
     }
     public function create($created_by, $data)
@@ -38,7 +43,6 @@ class ProductRepository
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
             ->groupBy('products.id')
             ->first();
-
         return $product;
     }
     public function searchProduct($q)

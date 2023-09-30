@@ -86,31 +86,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="latitude" class="h6">Latitude</label>
+                                                    <label for="stock" class="h6">Stock</label>
                                                     <div class="form-group">
-                                                        <input required type="text" class="form-control"
-                                                            id="update-latitude" name="latitude" placeholder="Latitude">
+                                                        <input required name="stock" class="form-control"
+                                                            id="update-stock" />
+                                                        <span id="stockError" class="text-danger"></span>
                                                     </div>
                                                 </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label for="longitude" class="h6">Longitude</label>
-                                                    <div class="form-group">
-                                                        <input required type="text" class="form-control"
-                                                            id="update-longitude" name="longitude"
-                                                            placeholder="Longitude">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="address" class="h6">Product address</label>
-                                                    <div class="form-group">
-                                                        <input required type="text" class="form-control"
-                                                            id="update-address" name="address"
-                                                            placeholder="Product address">
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                     </div>
                                     <div class="modal-footer">
@@ -276,7 +259,9 @@
                                                     data-description="{{ $product->description }}"
                                                     data-price="{{ $product->price }}"
                                                     data-category="{{ $product->category_id }}"
+                                                    data-stock="{{ $product->stock }}"
                                                     data-image="{{ $product->image === null ? null : url($product->image) }}">
+                                                    
                                                     Edit
                                                     <form action="{{ url('products') . '/' . $product->id }}"
                                                         method="POST">
@@ -425,10 +410,9 @@
         const editButtons = document.querySelectorAll('.edit-button');
         const editForm = document.getElementById('editForm');
         const editNameInput = document.getElementById('update-name');
+        const editStockInput = document.getElementById('update-stock');
         const editDescriptionInput = document.getElementById('update-description');
         const editPriceInput = document.getElementById('update-price');
-        const editLongitude = document.getElementById('update-longitude');
-        const editLatitude = document.getElementById('update-latitude');
         const editAdress = document.getElementById('update-address');
         const editCategoryDropdown = document.getElementById('update_category_product');
         console.log(editCategoryDropdown)
@@ -439,18 +423,17 @@
                 const name = button.getAttribute('data-name');
                 const description = button.getAttribute('data-description');
                 const price = button.getAttribute('data-price');
-                const longitude = button.getAttribute('data-longitude');
-                const latitude = button.getAttribute('data-latitude');
-                const address = button.getAttribute('data-address');
+                const stock = button.getAttribute('data-stock');
                 const image = button.getAttribute('data-image');
                 const category = button.getAttribute('data-category');
                 
-                const url = "{{ url('Products') }}" + '/' + id;
+                const url = "{{ url('products') }}" + '/' + id;
                 editForm.setAttribute('action', url);
                 editNameInput.value = name;
                 editImagePreview.src = image;
                 editImagePreview.style.display = 'block';
                 editDescriptionInput.value = description;
+                editStockInput.value = stock;
                 editPriceInput.value = price
                 setSelectedOption(editCategoryDropdown, category)
 

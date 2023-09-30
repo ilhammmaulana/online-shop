@@ -9,6 +9,7 @@ use App\Http\Requests\WEB\CreateProduct;
 use App\Http\Requests\WEB\CreateProductRequest;
 use App\Http\Requests\WEB\UpdateProductRequest;
 use App\Models\CategoryProduct;
+use App\Models\Product;
 use App\Repositories\CategoryProductRepository;
 use App\Repositories\ProductRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -93,7 +94,6 @@ class ProductController extends ApiController
      */
     public function edit($id)
     {
-        //
     }
 
     /**
@@ -105,6 +105,27 @@ class ProductController extends ApiController
      */
     public function update(UpdateProductRequest $updateProductRequest, $id)
     {
+        try {
+            $product = Product::findOrFail($id);
+
+            $input = $updateProductRequest->only('name', 'description', 'price', 'stock', 'category_id');
+
+            if ($updateProductRequest->hasFile('image')) {
+                if ($product->image) {
+                    Storage::delete($product->image);
+                }
+
+                $imagePath = $updateProductRequest->file('image')->store('images/users', 'public');
+                $input['image'] = 'public/' . $imagePath;
+            }
+
+            $product->update($input);
+            return redirect('products')->with('success', 'Product updated successfully!');
+        } catch (ModelNotFoundException $th) {
+            redirect()->back()->with('failed', 'Maaf destinasi tidak dapat ditemukan');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -115,6 +136,18 @@ class ProductController extends ApiController
      */
     public function destroy($id)
     {
-        //
+        try {
+            $product = Product::findOrFail($id);
+
+            if ($product->image) {
+                Storage::delete($product->image);
+            }
+
+            $product->delete();
+
+            return redirect('products')->with('success', 'Product deleted successfully!');
+        } catch (\Throwable $th) {
+            return '404';
+        }
     }
 }
