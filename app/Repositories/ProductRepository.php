@@ -12,7 +12,7 @@ class ProductRepository
             ->selectRaw('products.*, ROUND(AVG(reviews.rating), 2) as average_rating')
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
             ->groupBy('products.id')
-            ->latest()
+            ->orderBy('products.created_at', 'DESC')
             ->paginate(10);
         return $products;
     }
