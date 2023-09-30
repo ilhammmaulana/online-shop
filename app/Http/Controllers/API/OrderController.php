@@ -19,7 +19,7 @@ class OrderController extends ApiController
      */
     public function index()
     {
-        $orders = Order::with(['carts.product'])->where('created_by', $this->guard()->id())->get();
+        $orders = Order::with(['carts.product.category'])->where('created_by', $this->guard()->id())->get();
         // return $this->requestSuccessData($orders);
         return $this->requestSuccessData(OrderResource::collection($orders));
     }
@@ -72,20 +72,23 @@ class OrderController extends ApiController
                     $product->save();
                     $cartPrice = $product->price * $qty;
                     $totalPrice += $cartPrice;
-
                     $cart->order_id = $order->id;
                     $cart->singular_price = $product->price;
                     $cart->cart_price = $cartPrice;
+                    $product->stock -= $qty;
+                    $product->save();
                     $cart->save();
                 } else {
                     $errorProducts[] = [
                         'id_product' => $cart->product_id,
+                        "name" => $product->name,
+                        "message" => "Insufficient stock of goods. Only " . $product->stock . " left in stock.",
                     ];
                 }
             }
             if (!empty($errorProducts)) {
                 DB::rollBack();
-                return response()->json(['errors' => $errorProducts], 400);
+                return $this->requestValidation($errorProducts);
             }
 
             $order->update(['status_transaction' => 'success', 'total_price' => $totalPrice]);
@@ -105,7 +108,21 @@ class OrderController extends ApiController
      */
     public function show($id)
     {
-        //
+        try {
+            $order = Order::with(['carts.product.category'])
+                ->where('created_by', $this->guard()->id())
+                ->where('id', $id)
+                ->where('status_transaction', 'success')
+                ->first();
+
+            if (!$order) {
+                return $this->requestNotFound('Order not found!');
+            }
+
+            return $this->requestSuccessData(new OrderResource($order));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     /**

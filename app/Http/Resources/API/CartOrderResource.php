@@ -4,7 +4,7 @@ namespace App\Http\Resources\API;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OrderResource extends JsonResource
+class CartOrderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,12 @@ class OrderResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "total_price" => $this->total_price,
-            "status_transaction" => $this->status_transaction,
+            "qty" => (int)$this->qty,
+            "singular_price" => (int)$this->singular_price,
+            "cart_price" => (int)$this->cart_price,
+            "product" => new ProductOrderResource($this->product),
             "created_at" => $this->created_at->format('Y-m-d H:i:s'),
             "updated_at" => $this->updated_at->format('Y-m-d H:i:s'),
-            "carts" => CartOrderResource::collection($this->carts),
         ];
     }
 }
