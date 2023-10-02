@@ -8,20 +8,12 @@ class ProductRepository
 {
     public function getAll()
     {
-        $products = Product::selectRaw('products.id, products.name as product_name, products.price, products.stock, products.created_at, products.updated_at, category_products.name as category_name, ROUND(AVG(reviews.rating), 2) as average_rating')
+        $products = Product::with('category')
+            ->selectRaw('products.*, ROUND(AVG(reviews.rating), 2) as average_rating')
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
-            ->leftJoin('category_products', 'products.category_id', '=', 'category_products.id')
-            ->whereNull('products.deleted_at')
-            ->groupBy('products.id', 'product_name', 'products.price', 'products.stock', 'products.created_at', 'products.updated_at', 'category_name')
+            ->groupBy('products.id')
             ->orderBy('products.created_at', 'DESC')
             ->paginate(10);
-
-
-        // If you want to include the category information
-        $products->load('category');
-
-        return $products;
-
         return $products;
     }
     public function create($created_by, $data)

@@ -11,6 +11,7 @@ use App\Http\Controllers\WEB\ResetPassword;
 use App\Http\Controllers\WEB\ChangePassword;
 use App\Http\Controllers\WEB\DestinationController;
 use App\Http\Controllers\WEB\ProductController;
+use App\Http\Controllers\WEB\UserManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,7 @@ Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('
 Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('products', ProductController::class)->names('products');
+    Route::resource('user-managements', UserManagementController::class)->names('user-managements');
     Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
     Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');

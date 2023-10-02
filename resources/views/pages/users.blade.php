@@ -14,7 +14,6 @@
                             data-bs-target="#createProduct">
                             Create Product
                         </button>
-                        {{-- Edit --}}
                         <div class="modal fade" id="editProduct" tabindex="-1" role="dialog"
                             aria-labelledby="editModelProduct" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
