@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\WEB;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\WEB\CreateUserRequest;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,7 @@ class UserManagementController extends Controller
     public function index()
     {
         return view("pages.user-management", [
-            $users = $this->userRepository->getAllUser()
+            "users" => $this->userRepository->getAllUser()
         ]);
     }
 
@@ -32,8 +33,8 @@ class UserManagementController extends Controller
      */
     public function create()
     {
-        //
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -41,9 +42,11 @@ class UserManagementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateUserRequest $createUserRequest)
     {
-        //
+            $input = $createUserRequest->only("name","email","password");
+        $image = $createUserRequest->file("image");
+        
     }
 
     /**

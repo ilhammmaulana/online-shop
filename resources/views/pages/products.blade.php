@@ -266,12 +266,12 @@
                                                     data-image="{{ $product->image === null ? null : url($product->image) }}">
 
                                                     Edit
-                                                    <form action="{{ url('products') . '/' . $product->id }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
+
                                                 </button>
-                                                <button TYPE="submit" class="btn btn-danger">Delete</button>
+                                                <form action="{{ url('products') . '/' . $product->id }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button TYPE="submit" class="btn btn-danger">Delete</button>
                                                 </form>
                                             </td>
                                         </tr>
