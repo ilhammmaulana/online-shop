@@ -46,14 +46,14 @@ class UserManagementController extends Controller
     public function store(CreateUserRequest $createUserRequest)
     {
         try {
-            $input = $createUserRequest->only("name","email","password");
+            $input = $createUserRequest->only("name","email","password", "phone");
         $image = $createUserRequest->file("image");
         $path = 'public/' . Storage::disk('public')->put('images/users', $image);
-        $input['image'] = $path;
+        $input['photo'] = $path;
         $this->userRepository->create($input);
         return redirect()->route('user-managements')->with('success','Success create user');
         } catch (\Throwable $th) {
-                return redirect()->route('user-managements.index')->with('error', 'Failed!, Email allready exist!');
+            return redirect()->route('user-managements.index')->with('error', 'Failed!, Email allready exist!');
         }    
         
     }

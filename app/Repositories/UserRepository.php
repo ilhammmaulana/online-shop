@@ -16,7 +16,7 @@ class UserRepository
         return User::role('user')->count();
     }
     public function getAllUser(){
-        $users = User::paginate(10);
+        $users = User::latest()->paginate(10);
         return $users;
     }
     public function create($user){
