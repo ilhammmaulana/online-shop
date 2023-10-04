@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\WEB\CreateUserRequest;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserManagementController extends Controller
 {
@@ -44,8 +45,16 @@ class UserManagementController extends Controller
      */
     public function store(CreateUserRequest $createUserRequest)
     {
+        try {
             $input = $createUserRequest->only("name","email","password");
         $image = $createUserRequest->file("image");
+        $path = 'public/' . Storage::disk('public')->put('images/users', $image);
+        $input['image'] = $path;
+        $this->userRepository->create($input);
+        return redirect()->route('user-managements')->with('success','Success create user');
+        } catch (\Throwable $th) {
+                return redirect()->route('user-managements.index')->with('error', 'Failed!, Email allready exist!');
+        }    
         
     }
 

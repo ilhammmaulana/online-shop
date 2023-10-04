@@ -22,8 +22,8 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form enctype="multipart/form-data" action="{{ route('user-managements.store') }}"
-                                        method="POST">
+                                    <form enctype="multipart/form-data"
+                                        action="{{ route('user-managements.store') }}"method="POST">
                                         @csrf
                                         <div class="form-group">
                                             <img id="imagePreview" src="#" alt="Image Preview"

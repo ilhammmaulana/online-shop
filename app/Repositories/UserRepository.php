@@ -19,4 +19,8 @@ class UserRepository
         $users = User::paginate(10);
         return $users;
     }
+    public function create($user){
+        return User::create($user);
+    }
+    
 }
