@@ -115,7 +115,7 @@ class ProductController extends ApiController
                     Storage::delete($product->image);
                 }
 
-                $imagePath = $updateProductRequest->file('image')->store('images/users', 'public');
+                $imagePath = $updateProductRequest->file('image')->store('images/products', 'public');
                 $input['image'] = 'public/' . $imagePath;
             }
 

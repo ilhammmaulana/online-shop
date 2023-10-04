@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WEB\AdminController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\WEB\PageController;
@@ -36,6 +37,7 @@ Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middle
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('products', ProductController::class)->names('products');
     Route::resource('user-managements', UserManagementController::class)->names('user-managements');
+    Route::resource('admins', AdminController::class)->names('admins');
     Route::get('/virtual-reality', [PageController::class, 'vr'])->name('virtual-reality');
     Route::get('/rtl', [PageController::class, 'rtl'])->name('rtl');
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile');

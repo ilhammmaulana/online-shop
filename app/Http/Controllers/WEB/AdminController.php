@@ -5,11 +5,11 @@ namespace App\Http\Controllers\WEB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\WEB\CreateUserRequest;
 use App\Models\User;
-use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Storage;
 
-class UserManagementController extends Controller
+class AdminController extends Controller
 {
     private $userRepository;
     function __construct(UserRepository $userRepository)
@@ -24,8 +24,8 @@ class UserManagementController extends Controller
      */
     public function index()
     {
-        return view("pages.user-management", [
-            "users" => $this->userRepository->getUser('user', auth()->id())
+        return view("pages.admins", [
+            "users" => $this->userRepository->getUserByRole('admin', auth()->id())
         ]);
     }
 
@@ -52,10 +52,10 @@ class UserManagementController extends Controller
             $image = $createUserRequest->file("photo");
             $path = 'public/' . Storage::disk('public')->put('images/users', $image);
             $input['photo'] = $path;
-            $this->userRepository->create($input);
-            return redirect()->route('user-managements')->with('success', 'Success create user');
+            $this->userRepository->create($input)->assignRole('admin');
+            return redirect()->route('admins')->with('success', 'Success create user');
         } catch (\Throwable $th) {
-            return redirect()->route('user-managements.index')->with('error', 'Failed!, Email allready exist!');
+            return redirect()->route('admins.index')->with('error', 'Failed!, Email allready exist!');
         }
     }
 
@@ -109,9 +109,9 @@ class UserManagementController extends Controller
             $user->email = $input['email'];
             $user->phone = $input['phone'];
             $user->save();
-            return redirect()->route('user-managements')->with('success', 'User update successfully');
+            return redirect()->route('admins')->with('success', 'User update successfully');
         } catch (\Throwable $th) {
-            return redirect()->route('user-managements.index')->with('error', 'Failed! Email already exists.');
+            return redirect()->route('admins.index')->with('error', 'Failed! Email already exists.');
         }
     }
 
