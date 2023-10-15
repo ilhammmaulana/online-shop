@@ -51,8 +51,19 @@ class ProductRepository
     }
     public function getOne($id)
     {
-        $product = Product::with(['category', 'reviews.user'])
-            ->selectRaw('products.*, ROUND(AVG(reviews.rating), 2) as average_rating')
+        $product = Product::select([
+            'products.id',
+            'products.name', // Replace with the actual column names from the 'products' table
+            'products.created_by',
+            'products.description',
+            'products.price',
+            'products.stock',
+            'products.category_id',
+            'products.image',
+            'products.created_at',
+            'products.updated_at',
+            DB::raw('ROUND(AVG(reviews.rating), 2) as average_rating'),
+        ])
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
             ->groupBy('products.id')
             ->first();
@@ -60,8 +71,20 @@ class ProductRepository
     }
     public function searchProduct($q)
     {
-        $products = Product::with('category')
-            ->selectRaw('products.*, ROUND(AVG(reviews.rating), 2) as average_rating')
+        $products = Product::select([
+            'products.id',
+            'products.name', // Replace with the actual column names from the 'products' table
+            'products.created_by',
+            'products.description',
+            'products.price',
+            'products.stock',
+            'products.category_id',
+            'products.image',
+            'products.created_at',
+            'products.updated_at',
+            DB::raw('ROUND(AVG(reviews.rating), 2) as average_rating'),
+        ])
+            ->with('category')
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
             ->groupBy('products.id')
             ->orderByRaw('average_rating DESC')
@@ -72,7 +95,20 @@ class ProductRepository
     }
     public function getByCategoryId($category_id)
     {
-        $products = Product::with('category')
+        $products = Product::select([
+            'products.id',
+            'products.name', // Replace with the actual column names from the 'products' table
+            'products.created_by',
+            'products.description',
+            'products.price',
+            'products.stock',
+            'products.category_id',
+            'products.image',
+            'products.created_at',
+            'products.updated_at',
+            DB::raw('ROUND(AVG(reviews.rating), 2) as average_rating'),
+        ])
+            ->with('category')
             ->selectRaw('products.*, ROUND(AVG(reviews.rating), 2) as average_rating')
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
             ->groupBy('products.id')
