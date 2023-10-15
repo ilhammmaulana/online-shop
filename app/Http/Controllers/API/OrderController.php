@@ -4,9 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\API\CartIdsRequest;
+use App\Http\Requests\API\SingleProductCheckoutRequest;
 use App\Http\Resources\API\OrderResource;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Product;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -156,6 +159,42 @@ class OrderController extends ApiController
      */
     public function destroy($id)
     {
-        //
+    }
+    public function single(SingleProductCheckoutRequest $singleProductCheckoutRequest)
+    {
+        try {
+            $input = $singleProductCheckoutRequest->only('product_id', 'qty');
+            $product = Product::where('id', $input['product_id'])->firstOrFail();
+
+            // Check if the requested quantity is available in stock
+            if ($input['qty'] > $product->stock) {
+                return $this->badRequest('Failed! Quantity exceeds available stock', 'not_available_stocks');
+            }
+
+            DB::beginTransaction();
+
+            $order = Order::create(['created_by' => $this->guard()->id(), 'status_transaction' => 'pending']);
+
+            $total_price = $input['qty'] * $product->price;
+
+            Cart::create([
+                'product_id' => $input['product_id'],
+                'qty' => $input['qty'],
+                'created_by' => $this->guard()->id(),
+                'singular_price' => $product->price,
+                'cart_price' => $total_price,
+                'order_id' => $order->id,
+            ]);
+            $order->update(['status_transaction' => 'success', 'total_price' => $total_price]);
+            $product->decrement('stock', $input['qty']);
+            DB::commit();
+
+            return $this->requestSuccess();
+        } catch (ModelNotFoundException $th) {
+            return $this->requestNotFound('Product not found!');
+        } catch (\Throwable $th) {
+            throw $th;
+            DB::rollBack();
+        }
     }
 }

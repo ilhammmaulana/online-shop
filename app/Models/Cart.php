@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class   Cart extends Model
 {
     use HasFactory, useUUID;
-    protected $fillable = ['id', 'product_id', 'qty',  'status_cart', 'created_by', 'singular_price', 'cart_price'];
+    protected $fillable = ['id', 'product_id', 'qty', 'order_id',  'status_cart', 'created_by', 'singular_price', 'cart_price'];
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';

@@ -60,5 +60,6 @@ Route::middleware([
     });
     Route::resource('orders', OrderController::class)->only('index', 'show', 'store');
     Route::prefix('orders')->group(function () {
+        Route::post('single', [OrderController::class, 'single']);
     });
 });

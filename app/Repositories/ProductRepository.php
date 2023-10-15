@@ -9,10 +9,22 @@ class ProductRepository
 {
     public function getAll()
     {
-        $products = Product::with('category')
-            ->selectRaw('products.*, ROUND(AVG(reviews.rating), 2) as average_rating')
+        $products = Product::select([
+            'products.id',
+            'products.name', // Replace with the actual column names from the 'products' table
+            'products.created_by',
+            'products.description',
+            'products.price',
+            'products.stock',
+            'products.category_id',
+            'products.image',
+            'products.created_at',
+            'products.updated_at',
+            DB::raw('ROUND(AVG(reviews.rating), 2) as average_rating'),
+        ])
+            ->with('category')
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
-            ->groupBy('products.id')
+            ->groupBy('products.id', 'products.name', 'products.created_by', 'products.description', 'products.price', 'products.stock', 'products.category_id', 'products.image', 'products.created_at', 'products.updated_at')
             ->orderBy('products.created_at', 'DESC')
             ->paginate(10);
         return $products;
