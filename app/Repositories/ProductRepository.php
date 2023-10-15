@@ -97,7 +97,7 @@ class ProductRepository
     {
         $products = Product::select([
             'products.id',
-            'products.name', // Replace with the actual column names from the 'products' table
+            'products.name',
             'products.created_by',
             'products.description',
             'products.price',
@@ -109,12 +109,12 @@ class ProductRepository
             DB::raw('ROUND(AVG(reviews.rating), 2) as average_rating'),
         ])
             ->with('category')
-            ->selectRaw('products.*, ROUND(AVG(reviews.rating), 2) as average_rating')
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
-            ->groupBy('products.id')
-            ->orderByRaw('average_rating DESC')
             ->where('category_id', $category_id)
+            ->groupBy('products.id', 'products.name', 'products.created_by', 'products.description', 'products.price', 'products.stock', 'products.category_id', 'products.image', 'products.created_at', 'products.updated_at')
+            ->orderByRaw('average_rating DESC')
             ->get();
+
         return $products;
     }
 }
