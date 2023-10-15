@@ -141,7 +141,7 @@ class AuthController extends ApiController
     {
         try {
             $photo = $updateProfileRequest->file('photo');
-            $input = $updateProfileRequest->only('name');
+            $input = $updateProfileRequest->only('name', 'phone');
             $user = User::find($this->guard()->id());
             if ($photo) {
                 $pathDelete = $user->photo;
@@ -152,6 +152,9 @@ class AuthController extends ApiController
                 $user->photo = 'public/' . $path;
             }
             $user->name = $input['name'];
+            if ($input['phone']) {
+                $user->phone = $input['phone'];
+            }
             $user->save();
             return $this->requestSuccessData(new UserResource($user));
         } catch (\Illuminate\Database\QueryException $errors) {
