@@ -73,7 +73,7 @@ class ProductRepository
     {
         $products = Product::select([
             'products.id',
-            'products.name', // Replace with the actual column names from the 'products' table
+            'products.name',
             'products.created_by',
             'products.description',
             'products.price',
@@ -86,10 +86,13 @@ class ProductRepository
         ])
             ->with('category')
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
-            ->groupBy('products.id')
+            ->groupBy('products.id', 'products.name') // Include 'products.name' in the GROUP BY clause
             ->orderByRaw('average_rating DESC')
             ->where('name', 'like', '%' . $q . '%')
             ->get();
+
+        return $products;
+
 
         return $products;
     }
