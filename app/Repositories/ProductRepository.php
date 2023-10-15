@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 
 class ProductRepository
 {
@@ -27,13 +28,26 @@ class ProductRepository
     }
     public function getPopularProducts()
     {
-        $product = Product::with('category')->selectRaw('products.*, ROUND(AVG(reviews.rating), 2) as average_rating')
+        $products = Product::select([
+            'products.id',
+            'products.name', // Replace with the actual column names from the 'products' table
+            'products.created_by',
+            'products.description',
+            'products.price',
+            'products.stock',
+            'products.category_id',
+            'products.image',
+            'products.created_at',
+            'products.updated_at',
+            DB::raw('ROUND(AVG(reviews.rating), 2) as average_rating'),
+        ])
+            ->with('category')
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
             ->whereNull('products.deleted_at')
-            ->groupBy('products.id')
+            ->groupBy('products.id', 'products.name', 'products.created_by', 'products.description', 'products.price', 'products.stock', 'products.category_id', 'products.image', 'products.created_at', 'products.updated_at')
             ->orderByRaw('average_rating DESC')
             ->get();
-        return $product;
+        return $products;
     }
     public function getOne($id)
     {
