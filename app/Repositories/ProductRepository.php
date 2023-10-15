@@ -86,7 +86,7 @@ class ProductRepository
         ])
             ->with('category')
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
-            ->groupBy('products.id', 'products.name', 'products.created_by')
+            ->groupBy('products.id', 'products.name', 'products.created_by', 'products.description', 'products.price', 'products.stock', 'products.category_id', 'products.image', 'products.created_at', 'products.updated_at')
             ->orderByRaw('average_rating DESC')
             ->where('name', 'like', '%' . $q . '%')
             ->get();
