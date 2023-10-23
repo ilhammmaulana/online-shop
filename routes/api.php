@@ -6,6 +6,7 @@ use App\Http\Controllers\API\CategoryProductController;
 use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\PromoBannerController;
 use App\Http\Controllers\API\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,7 @@ Route::middleware([
         Route::post('decrement', [CartController::class, 'decrement']);
         Route::post('increment', [CartController::class, 'increment']);
     });
+    Route::resource('promo-banners', PromoBannerController::class)->only('index', 'store', 'update');
     Route::resource('orders', OrderController::class)->only('index', 'show', 'store');
     Route::prefix('orders')->group(function () {
         Route::post('single', [OrderController::class, 'single']);
