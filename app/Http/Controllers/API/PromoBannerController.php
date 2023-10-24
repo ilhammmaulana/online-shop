@@ -39,7 +39,7 @@ class PromoBannerController extends ApiController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $photoRequest
      * @return \Illuminate\Http\Response
      */
     public function store(PhotoRequest $photoRequest)
@@ -86,9 +86,27 @@ class PromoBannerController extends ApiController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PhotoRequest $photoRequest, $id)
     {
-        //
+        try {
+            $banner = PromoBanner::findOrFail($id);
+            $input = [];
+            if ($photoRequest->hasFile('photo')) {
+                if ($banner->photo) {
+                    Storage::delete($banner->photo);
+                }
+                $imagePath = $photoRequest->file('photo')->store('images/banner', 'public');
+                $input['photo'] = 'public/' . $imagePath;
+            }            
+            $banner->update($input);
+            $banner['photo'] = url($input['photo']);
+            return $this->requestSuccessData($banner);
+
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
+            return $this->requestNotFound("Banner not found!", $th);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -99,6 +117,15 @@ class PromoBannerController extends ApiController
      */
     public function destroy($id)
     {
-        //
-    }
+        try {
+            $banner = PromoBanner::findOrFail($id);
+            if ($banner->photo) {
+                Storage::delete($banner->photo);
+            }
+            return $this->requestSuccess();
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
+            return $this->requestNotFound("Banner not found!", $th);
+        } catch (\Throwable $th) {
+            throw $th;
+        }    }
 }

@@ -59,7 +59,12 @@ Route::middleware([
         Route::post('decrement', [CartController::class, 'decrement']);
         Route::post('increment', [CartController::class, 'increment']);
     });
-    Route::resource('promo-banners', PromoBannerController::class)->only('index', 'store', 'update');
+    Route::resource('promo-banners', PromoBannerController::class)->only('index', 'store', 'destroy');
+
+    Route::prefix('promo-banners')->group(function () {
+        Route::post('/update/{id}', [PromoBannerController::class,'update']);
+    });
+
     Route::resource('orders', OrderController::class)->only('index', 'show', 'store');
     Route::prefix('orders')->group(function () {
         Route::post('single', [OrderController::class, 'single']);
