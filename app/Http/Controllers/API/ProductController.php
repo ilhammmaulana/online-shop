@@ -68,7 +68,13 @@ class ProductController extends ApiController
      */
     public function show($id)
     {
-        return $this->requestSuccessData(new ProductAndReviewResource($this->productRepository->getOne($id)));
+        try {
+            return $this->requestSuccessData(new ProductAndReviewResource($this->productRepository->getOne($id)));
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
+            return $this->requestNotFound('Product not found!');
+        } catch (\Throwable $th) {
+            return $this->badRequest($th);
+        }
     }
 
     /**

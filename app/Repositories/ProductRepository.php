@@ -77,8 +77,9 @@ class ProductRepository
             DB::raw('ROUND(AVG(reviews.rating), 2) as average_rating'),
         ])
             ->leftJoin('reviews', 'products.id', '=', 'reviews.product_id')
+            ->where('id', $id)
             ->groupBy('products.id', 'products.name', 'products.created_by', 'products.description', 'products.price', 'products.stock', 'products.category_id', 'products.image', 'products.created_at', 'products.updated_at')
-            ->first();
+            ->firstOrFail();
         return $product;
     }
     public function searchProduct($q)
