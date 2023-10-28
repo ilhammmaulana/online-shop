@@ -22,7 +22,7 @@ class OrderController extends ApiController
      */
     public function index()
     {
-        $orders = Order::with(['carts.product.category'])->where('created_by', $this->guard()->id())->get();
+        $orders = Order::with(['carts.product.category'])->where('created_by', $this->guard()->id())->latest()->get();
         // return $this->requestSuccessData($orders);
         return $this->requestSuccessData(OrderResource::collection($orders));
     }
@@ -78,7 +78,6 @@ class OrderController extends ApiController
                     $cart->order_id = $order->id;
                     $cart->singular_price = $product->price;
                     $cart->cart_price = $cartPrice;
-                    $product->stock -= $qty;
                     $product->save();
                     $cart->save();
                 } else {
